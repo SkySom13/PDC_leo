@@ -76,8 +76,7 @@ echo ""
 
 # 6. vsomeip Routing Manager
 echo "[6/7] Start Routing Manager..."
-cd "${PROJECT_ROOT}/app/config"
-export VSOMEIP_CONFIGURATION="${PROJECT_ROOT}/app/config/routing_manager_ecu2.json"
+export VSOMEIP_CONFIGURATION="${PROJECT_ROOT}/app/GearApp/config/vsomeip_ecu2.json"
 export VSOMEIP_APPLICATION_NAME="routingmanagerd"
 export LD_LIBRARY_PATH="${DEPLOY_PREFIX}/lib:/usr/local/lib:${LD_LIBRARY_PATH}"
 

@@ -134,22 +134,13 @@ Item {
                     }
                 }
 
-                contentItem: Item {
-                    Image {
-                        id: carIcon
-                        anchors.centerIn: parent
-                        width: 50
-                        height: 50
-                        source: "qrc:/asset/car.svg"
-                        fillMode: Image.PreserveAspectFit
-                        smooth: true
-                        visible: false
-                    }
-                    ColorOverlay {
-                        anchors.fill: carIcon
-                        source: carIcon
-                        color: "white"
-                    }
+                contentItem: Image {
+                    anchors.centerIn: parent
+                    width: 50
+                    height: 50
+                    source: "qrc:/asset/car_white.svg"
+                    fillMode: Image.PreserveAspectFit
+                    smooth: true
                 }
             }
 
@@ -169,22 +160,13 @@ Item {
                     }
                 }
 
-                contentItem: Item {
-                    Image {
-                        id: mp3Icon
-                        anchors.centerIn: parent
-                        width: 50
-                        height: 50
-                        source: "qrc:/asset/mp3.svg"
-                        fillMode: Image.PreserveAspectFit
-                        smooth: true
-                        visible: false
-                    }
-                    ColorOverlay {
-                        anchors.fill: mp3Icon
-                        source: mp3Icon
-                        color: "white"
-                    }
+                contentItem: Image {
+                    anchors.centerIn: parent
+                    width: 50
+                    height: 50
+                    source: "qrc:/asset/mp3_white.svg"
+                    fillMode: Image.PreserveAspectFit
+                    smooth: true
                 }
             }
 

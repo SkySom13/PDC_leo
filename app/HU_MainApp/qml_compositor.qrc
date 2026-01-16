@@ -9,7 +9,9 @@
 
         <!-- Assets for HomePage (vehicle dashboard) -->
         <file>asset/car.svg</file>
+        <file>asset/car_white.svg</file>
         <file>asset/mp3.svg</file>
+        <file>asset/mp3_white.svg</file>
         <file>asset/ambient_light.svg</file>
     </qresource>
 </RCC>

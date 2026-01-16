@@ -11,6 +11,7 @@
 3. [Qt Wayland Compositor 설정](#3-qt-wayland-compositor-설정)
 4. [실행 스크립트 구성](#4-실행-스크립트-구성)
 5. [트러블슈팅](#5-트러블슈팅)
+6. [MST Hub 듀얼 디스플레이 전환 가이드](#6-mst-hub-듀얼-디스플레이-전환-가이드)
 
 ---
 
@@ -678,6 +679,305 @@ LIBGL_ALWAYS_SOFTWARE=0  # 이건 유지 (Qt가 내부적으로 software backend
 - GPU가 강력하다고 항상 OpenGL이 빠른 것은 아님
 - Nested compositor 구조에서는 software rendering이 더 효율적일 수 있음
 - 렌더링 파이프라인의 복잡도가 성능에 더 큰 영향을 미침
+
+---
+
+## 6. MST Hub 듀얼 디스플레이 전환 가이드
+
+> 📅 작성일: 2026-01-16  
+> 🎯 목적: WJESOG MST Hub 연결 후 듀얼 디스플레이(HU + IC) 설정
+
+### 6.1 현재 상태 (MST Hub 도착 전)
+
+**하드웨어**:
+- Jetson Orin Nano DP-1 포트 → EliteDisplay E273m 27-inch @ 1920x1080
+- 단일 디스플레이
+
+**소프트웨어 구조**:
+```
+Weston (wayland-0) @ DP-1
+  └─ HU_MainApp_Compositor (wayland-1)
+       ├─ GearApp
+       ├─ MediaApp
+       ├─ AmbientApp
+       └─ HomeScreenApp
+```
+
+**실행 스크립트**: `/home/jetson/leo/DES_Head-Unit/run-jetson-wayland-full.sh`
+
+### 6.2 MST Hub 도착 후 변경사항
+
+**하드웨어**:
+- Jetson Orin Nano DP-1 → **WJESOG 1x2 MST Hub**
+  - DP-1-1 (Output 1) → HU Display (1920x1080 or 7-inch)
+  - DP-1-2 (Output 2) → IC Display (1920x1080 or 7-inch)
+
+**소프트웨어 구조**:
+```
+Weston (wayland-0) @ DP-1 (MST Hub)
+  ├─ DP-1-1 (HU Display)
+  │   └─ HU_MainApp_Compositor (wayland-1) - fullscreen
+  │        ├─ GearApp
+  │        ├─ MediaApp
+  │        ├─ AmbientApp
+  │        └─ HomeScreenApp
+  │
+  └─ DP-1-2 (IC Display)
+      └─ IC_app (wayland-0) - fullscreen direct client
+```
+
+### 6.3 MST Hub 인식 확인
+
+MST Hub 연결 후 디스플레이 인식 확인:
+
+```bash
+# 1. DRM 인터페이스 확인
+ls /sys/class/drm/card*/card*-DP-*
+# 예상 출력:
+# /sys/class/drm/card0/card0-DP-1   ← 물리 포트
+# /sys/class/drm/card0/card0-DP-2   ← MST 생성 (또는 DP-1-1, DP-1-2)
+
+# 2. 연결 상태 확인
+cat /sys/class/drm/card0/card0-DP-1/status  # connected
+cat /sys/class/drm/card0/card0-DP-2/status  # connected
+
+# 3. xrandr로 확인 (Weston 실행 후)
+export DISPLAY=:0  # 또는 WAYLAND_DISPLAY=wayland-0
+xrandr
+# 예상 출력:
+# DP-1-1 connected 1920x1080+0+0 (normal left inverted right x axis y axis) ...
+# DP-1-2 connected 1920x1080+1920+0 (normal left inverted right x axis y axis) ...
+
+# 4. weston-info로 확인
+weston-info | grep output
+# 예상 출력:
+# output: 'DP-1-1' (0)
+# output: 'DP-1-2' (1)
+```
+
+**NVIDIA 공식 문서 참고**:
+- Jetson Orin Nano는 **최대 2개 디스플레이** 지원 (하드웨어 제약)
+- xrandr로 MST 제어 가능
+- 출처: NVIDIA Developer Forums (WayneWWW 답변)
+
+### 6.4 Weston 설정 변경
+
+**파일**: `~/.config/weston.ini`
+
+**변경 전 (단일 DP-1)**:
+```ini
+[core]
+backend=drm-backend.so
+
+[output]
+name=DP-1
+mode=1920x1080
+
+[shell]
+panel-position=none
+locking=false
+```
+
+**변경 후 (MST 듀얼 디스플레이)**:
+```ini
+[core]
+backend=drm-backend.so
+
+# HU Display (첫 번째 출력)
+[output]
+name=DP-1-1
+mode=1920x1080@60
+transform=normal
+
+# IC Display (두 번째 출력)
+[output]
+name=DP-1-2
+mode=1920x1080@60
+transform=normal
+
+[shell]
+panel-position=none
+locking=false
+```
+
+**해상도 옵션** (7-inch 디스플레이 사용 시):
+```ini
+# 7-inch 디스플레이가 1024x600이라면
+[output]
+name=DP-1-1
+mode=1024x600@60
+
+[output]
+name=DP-1-2
+mode=1024x600@60
+```
+
+**확인 방법**:
+```bash
+# 각 디스플레이 지원 해상도 확인
+cat /sys/class/drm/card0/card0-DP-1/modes
+cat /sys/class/drm/card0/card0-DP-2/modes
+```
+
+### 6.5 실행 스크립트 변경
+
+**파일**: `/home/jetson/leo/DES_Head-Unit/run-jetson-wayland-full.sh`
+
+**변경 없음!** 스크립트는 그대로 사용 가능:
+- Weston은 `weston.ini`를 자동으로 읽어서 듀얼 디스플레이 구성
+- HU_MainApp_Compositor는 Weston이 할당하는 디스플레이에 자동 배치
+- IC_app은 별도 실행 (다른 팀원이 모듈화 중)
+
+**추가 설정** (HU_MainApp을 특정 디스플레이에 강제 배치하려면):
+
+HU_MainApp Compositor 실행 시 환경변수 추가:
+```bash
+# Line 131 부근 수정 (선택사항)
+sudo XDG_RUNTIME_DIR=/tmp/xdg \
+  WAYLAND_DISPLAY=wayland-0 \
+  QSG_RENDER_LOOP=basic \
+  QT_QUICK_BACKEND=software \
+  QT_QPA_PLATFORM_DISPLAY_ID=0 \  # ← 첫 번째 디스플레이 (DP-1-1)
+  ./build_compositor/HU_MainApp_Compositor > /tmp/compositor.log 2>&1 &
+```
+
+### 6.6 IC_app 실행 (다른 팀원 담당)
+
+IC_app은 Weston의 두 번째 디스플레이(DP-1-2)에 fullscreen으로 표시:
+
+```bash
+# IC_app 실행 스크립트 (별도 작성 필요)
+sudo XDG_RUNTIME_DIR=/tmp/xdg \
+  WAYLAND_DISPLAY=wayland-0 \
+  QT_QPA_PLATFORM=wayland \
+  QT_WAYLAND_FULLSCREEN=1 \
+  QT_QUICK_BACKEND=software \
+  QT_QPA_PLATFORM_DISPLAY_ID=1 \  # ← 두 번째 디스플레이 (DP-1-2)
+  ./IC_app > /tmp/ic_app.log 2>&1 &
+```
+
+**중요**: IC_app은 `wayland-0` (Weston)에 직접 연결, Compositor 불필요
+
+### 6.7 MST 전환 체크리스트
+
+#### Phase 1: MST Hub 연결 전 준비 (현재)
+- [x] HU_MainApp + 4개 앱 빌드 완료
+- [x] `run-jetson-wayland-full.sh` 단일 DP-1 테스트 완료
+- [x] Software rendering 검증 (레이턴시 < 100ms)
+- [ ] IC_app 빌드 (다른 팀원)
+
+#### Phase 2: MST Hub 도착 후 하드웨어 설정
+- [ ] WJESOG 1x2 MST Hub 수령
+- [ ] Jetson DP-1 → MST Hub 연결
+- [ ] HU Display → MST Hub Output 1 (HDMI)
+- [ ] IC Display → MST Hub Output 2 (HDMI)
+- [ ] 전원 켜고 디스플레이 인식 확인:
+  ```bash
+  ls /sys/class/drm/card0/card0-DP-*
+  cat /sys/class/drm/card0/card0-DP-*/status
+  ```
+
+#### Phase 3: Weston 설정 업데이트
+- [ ] `~/.config/weston.ini` 백업
+- [ ] `weston.ini` 수정 (Section 6.4 참조)
+  - `[output] name=DP-1` → `name=DP-1-1`
+  - `[output] name=DP-1-2` 추가
+- [ ] Weston 재시작 후 인식 확인:
+  ```bash
+  sudo pkill -9 weston
+  ./run-jetson-wayland-full.sh
+  weston-info | grep output
+  ```
+
+#### Phase 4: 듀얼 디스플레이 검증
+- [ ] HU Display에 HU_MainApp 표시 확인 (DP-1-1)
+- [ ] IC Display에 배경화면만 표시 확인 (DP-1-2)
+- [ ] IC_app 실행하여 IC Display에 표시 확인
+- [ ] 양쪽 디스플레이 독립 동작 확인
+
+#### Phase 5: 성능 테스트
+- [ ] HU 앱 레이턴시 측정 (목표: < 100ms)
+- [ ] IC_app 레이턴시 측정
+- [ ] vsomeip 통신 정상 동작 확인
+- [ ] CPU/GPU 사용률 확인 (`tegrastats`)
+
+### 6.8 MST 관련 문제 해결
+
+#### 문제 1: MST Hub 인식 안됨
+**증상**: `ls /sys/class/drm/card0/card0-DP-*`에 DP-2가 나타나지 않음
+
+**해결**:
+```bash
+# 1. MST Hub 전원 확인 (Active Hub는 외부 전원 필요)
+# 2. EDID 정보 확인
+sudo get-edid | parse-edid
+
+# 3. Kernel 로그 확인
+dmesg | grep -i "dp\|mst\|display"
+
+# 4. DRM MST 지원 확인
+cat /sys/module/nvidia_drm/parameters/modeset  # Y 여야 함
+
+# 5. Weston 로그 확인
+sudo cat /tmp/weston.log | grep -i "dp\|output"
+```
+
+#### 문제 2: 두 번째 디스플레이 검은 화면
+**증상**: DP-1-1은 정상, DP-1-2는 검은 화면
+
+**해결**:
+```bash
+# 1. weston.ini에 [output] name=DP-1-2 추가 확인
+cat ~/.config/weston.ini
+
+# 2. xrandr로 강제 활성화
+export WAYLAND_DISPLAY=wayland-0
+xrandr --output DP-1-2 --auto
+
+# 3. IC_app이 DP-1-2를 찾지 못하는 경우
+export QT_QPA_PLATFORM_DISPLAY_ID=1  # 두 번째 디스플레이
+```
+
+#### 문제 3: 대역폭 부족 (깜빡임)
+**증상**: 두 디스플레이 모두 화면 깜빡임
+
+**원인**: DP 1.2 대역폭 초과 (17.28 Gbps)
+
+**해결**:
+```ini
+# weston.ini - 해상도 또는 주사율 낮추기
+[output]
+name=DP-1-1
+mode=1920x1080@30  # 60Hz → 30Hz
+
+[output]
+name=DP-1-2
+mode=1920x1080@30
+```
+
+또는 7-inch 디스플레이 사용 (더 낮은 해상도)
+
+#### 문제 4: HU와 IC가 같은 화면에 표시됨
+**증상**: 두 앱이 DP-1-1에만 나타남
+
+**해결**:
+```bash
+# IC_app 실행 시 명시적으로 두 번째 디스플레이 지정
+export QT_QPA_PLATFORM_DISPLAY_ID=1
+export QT_WAYLAND_FULLSCREEN=1
+./IC_app
+```
+
+### 6.9 참고 문서
+
+- **MST Hub 상세 분석**: `/home/jetson/leo/DES_Head-Unit/docs/JETSON_ORIN_NANO_DP_MST_ANALYSIS.md`
+  - NVIDIA 공식 확인 (최대 2개 디스플레이)
+  - WJESOG Hub 추천 ($30-40)
+  - 대역폭 계산 및 제약사항
+  
+- **NVIDIA 공식 문서**: 
+  - Weston/Wayland: https://docs.nvidia.com/jetson/archives/r36.4.4/DeveloperGuide/SD/WindowingSystems/WestonWayland.html
+  - xrandr MST 제어 가능 (공식 답변)
 
 ---
 
