@@ -16,3 +16,5 @@ oe-workdir/
 
 #vsomesip 
 install_folder/
+deps/
+HelloWorld/
