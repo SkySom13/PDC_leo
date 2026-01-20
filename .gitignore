@@ -12,3 +12,7 @@ oe-workdir/
 
 # Temporary files
 *.tmp
+
+
+#vsomesip 
+install_folder/
