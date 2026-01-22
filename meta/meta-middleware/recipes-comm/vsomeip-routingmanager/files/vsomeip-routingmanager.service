@@ -1,0 +1,30 @@
+[Unit]
+Description=vsomeip Routing Manager Daemon for ECU2
+Documentation=https://github.com/COVESA/vsomeip
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/routingmanagerd
+Restart=always
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+
+# Environment variables
+Environment="VSOMEIP_CONFIGURATION=/etc/vsomeip/routing_manager_ecu2.json"
+Environment="VSOMEIP_APPLICATION_NAME=routingmanagerd"
+Environment="LD_LIBRARY_PATH=/usr/lib"
+
+# Run as root (required for routing manager)
+User=root
+Group=root
+
+# Security settings
+# Note: Routing manager needs elevated permissions
+PrivateTmp=yes
+NoNewPrivileges=false
+
+[Install]
+WantedBy=multi-user.target

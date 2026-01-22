@@ -1,0 +1,27 @@
+[Unit]
+Description=VehicleControl Mock Service (vsomeip routing manager)
+Before=hu-mainapp-compositor.service gearapp.service mediaapp.service ambientapp.service homescreenapp.service
+After=network.target
+StartLimitInterval=60s
+StartLimitBurst=3
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/VehicleControlMock
+Restart=on-failure
+RestartSec=3
+
+# vsomeip configuration
+Environment="VSOMEIP_APPLICATION_NAME=VehicleControlMock"
+Environment="VSOMEIP_CONFIGURATION=/etc/vsomeip/vsomeip_mock.json"
+Environment="LD_LIBRARY_PATH=/usr/lib:/usr/local/lib"
+
+# Run as root (vsomeip routing manager needs elevated permissions)
+User=root
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=VehicleControlMock
+
+[Install]
+WantedBy=multi-user.target
