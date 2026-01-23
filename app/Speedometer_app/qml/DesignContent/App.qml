@@ -5,7 +5,7 @@ import Design 1.0
 Window {
     id: mainWindow
     width: 400
-    height: 400
+    height: 600
     visible: true
     title: "Speedometer"
     color: Constants.backgroundColor
