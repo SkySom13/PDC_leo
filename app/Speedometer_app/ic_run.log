@@ -1,0 +1,37 @@
+[CAPI][INFO] Loading configuration file /etc//commonapi-someip.ini
+═══════════════════════════════════════════════════════
+Speedometer Application
+App ID: appSpeedometer
+═══════════════════════════════════════════════════════
+VehicleControlClient (Speedometer) created
+🔌 Connecting to VehicleControl service...
+[CAPI][INFO] Loading configuration file '/home/jetson/leo/DES_Head-Unit/app/config/../Speedometer_app/config/commonapi_speedometer_app.ini'
+[CAPI][INFO] Using default binding 'dbus'
+[CAPI][INFO] Using default shared library folder '/usr/local/lib/commonapi'
+2026-01-26 15:04:12.799061  [info] Parsed vsomeip configuration in 0ms
+2026-01-26 15:04:12.799134  [info] Configuration module loaded.
+2026-01-26 15:04:12.799151  [info] Security disabled!
+2026-01-26 15:04:12.799163  [info] Initializing vsomeip (3.5.8) application "Speedometer_client".
+2026-01-26 15:04:12.799201  [error] is_routing_manager: Could not open /tmp/vsomeip.lck: Permission denied
+2026-01-26 15:04:12.799225  [info] Instantiating routing manager [Proxy].
+2026-01-26 15:04:12.799296  [info] Client [ffff] is connecting to [0] at /tmp/vsomeip-0 endpoint > 0xaaaad114ccb0
+2026-01-26 15:04:12.799450  [info] Application(Speedometer_client, ffff) is initialized (11, 100).
+2026-01-26 15:04:12.799747  [info] Starting vsomeip application "Speedometer_client" (ffff) using 2 threads I/O nice 0 boost event loop period 0
+✅ Proxy created successfully
+📡 Subscribing to VehicleControl events...
+✅ Event subscriptions setup complete
+2026-01-26 15:04:12.800572  [info] main dispatch thread id from application: ffff (Speedometer_client) is: ffff9eacf080 TID: 5086
+✅ Connected to VehicleControl service
+   Domain: "local"
+   Instance: "vehiclecontrol.VehicleControl"
+⚠️  VehicleControl service is not available
+2026-01-26 15:04:12.800734  [info] shutdown thread id from application: ffff (Speedometer_client) is: ffff9daaf080 TID: 5087
+2026-01-26 15:04:12.800774  [info] io thread id from application: ffff (Speedometer_client) is: ffff9f2df080 TID: 5084
+2026-01-26 15:04:12.800788  [info] io thread id from application: ffff (Speedometer_client) is: ffff9d29f080 TID: 5088
+2026-01-26 15:04:12.800871  [info] cei::wait_connecting_cbk: endpoint > 0xaaaad114ccb0 socket state > 1
+2026-01-26 15:04:12.800921  [info] assign_client: (ffff:Speedometer_client)
+2026-01-26 15:04:12.801708  [info] create_local_server: Listening @ /tmp/vsomeip-10a
+2026-01-26 15:04:12.801775  [info] Client 010a (Speedometer_client) successfully connected to routing  ~> registering..
+2026-01-26 15:04:12.801797  [info] Client 010a Registering to routing manager @ vsomeip-0
+2026-01-26 15:04:12.802489  [info] Application/Client 010a (Speedometer_client) is registered.
+✓ Application loaded

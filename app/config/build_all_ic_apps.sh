@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Build All IC Apps for Jetson Orin Nano
-# Builds BatteryMeter, GearState, and Speedometer apps
+# Build All IC Apps + IC Compositor for Jetson Orin Nano
+# Builds IC_Compositor, BatteryMeter, GearState, and Speedometer apps
 
 set -e  # Exit on error
 
@@ -9,11 +9,12 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 APP_DIR="${SCRIPT_DIR}/.."
 
 echo "========================================"
-echo "Building All IC Apps"
+echo "Building All IC Apps + Compositor"
 echo "========================================"
 
-# Array of IC apps
+# Array of IC apps (order: Compositor first, then apps)
 IC_APPS=(
+    "IC_Compositor"
     "BatteryMeter_app"
     "GearState_app"
     "Speedometer_app"
