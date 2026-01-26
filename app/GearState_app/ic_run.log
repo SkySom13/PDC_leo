@@ -8,30 +8,30 @@ VehicleControlClient (GearState) created
 [CAPI][INFO] Loading configuration file '/home/jetson/leo/DES_Head-Unit/app/config/../GearState_app/config/commonapi_gearstate_app.ini'
 [CAPI][INFO] Using default binding 'dbus'
 [CAPI][INFO] Using default shared library folder '/usr/local/lib/commonapi'
-2026-01-26 15:04:09.747027  [info] Parsed vsomeip configuration in 0ms
-2026-01-26 15:04:09.747102  [info] Configuration module loaded.
-2026-01-26 15:04:09.747117  [info] Security disabled!
-2026-01-26 15:04:09.747129  [info] Initializing vsomeip (3.5.8) application "GearState_client".
-2026-01-26 15:04:09.747169  [error] is_routing_manager: Could not open /tmp/vsomeip.lck: Permission denied
-2026-01-26 15:04:09.747193  [info] Instantiating routing manager [Proxy].
-2026-01-26 15:04:09.747268  [info] Client [ffff] is connecting to [0] at /tmp/vsomeip-0 endpoint > 0xaaaaf05f15c0
-2026-01-26 15:04:09.747434  [info] Application(GearState_client, ffff) is initialized (11, 100).
-2026-01-26 15:04:09.747705  [info] Starting vsomeip application "GearState_client" (ffff) using 2 threads I/O nice 0 boost event loop period 0
+2026-01-26 15:13:19.258886  [info] Parsed vsomeip configuration in 0ms
+2026-01-26 15:13:19.258965  [info] Configuration module loaded.
+2026-01-26 15:13:19.258981  [info] Security disabled!
+2026-01-26 15:13:19.258993  [info] Initializing vsomeip (3.5.8) application "GearState_client".
+2026-01-26 15:13:19.259034  [error] is_routing_manager: Could not open /tmp/vsomeip.lck: Permission denied
+2026-01-26 15:13:19.259056  [info] Instantiating routing manager [Proxy].
+2026-01-26 15:13:19.259134  [info] Client [ffff] is connecting to [0] at /tmp/vsomeip-0 endpoint > 0xaaab0c88d5c0
+2026-01-26 15:13:19.259300  [info] Application(GearState_client, ffff) is initialized (11, 100).
+2026-01-26 15:13:19.259587  [info] Starting vsomeip application "GearState_client" (ffff) using 2 threads I/O nice 0 boost event loop period 0
 ✅ Proxy created successfully
 📡 Subscribing to VehicleControl events...
-2026-01-26 15:04:09.748001  [info] main dispatch thread id from application: ffff (GearState_client) is: ffff7659f080 TID: 5029
 ✅ Event subscriptions setup complete
-2026-01-26 15:04:09.748104  [info] io thread id from application: ffff (GearState_client) is: ffff76daf080 TID: 5028
+2026-01-26 15:13:19.260344  [info] main dispatch thread id from application: ffff (GearState_client) is: ffffaffff080 TID: 5734
 ✅ Connected to VehicleControl service
+2026-01-26 15:13:19.260488  [info] shutdown thread id from application: ffff (GearState_client) is: ffffaefdf080 TID: 5736
    Domain: "local"
-2026-01-26 15:04:09.748157  [info] cei::wait_connecting_cbk: endpoint > 0xaaaaf05f15c0 socket state > 1
    Instance: "vehiclecontrol.VehicleControl"
-2026-01-26 15:04:09.748196  [info] assign_client: (ffff:GearState_client)
+2026-01-26 15:13:19.260538  [info] io thread id from application: ffff (GearState_client) is: ffffb487f080 TID: 5733
 ⚠️  VehicleControl service is not available
-2026-01-26 15:04:09.748245  [info] shutdown thread id from application: ffff (GearState_client) is: ffff7557f080 TID: 5031
-2026-01-26 15:04:09.748291  [info] io thread id from application: ffff (GearState_client) is: ffff74d6f080 TID: 5032
-2026-01-26 15:04:09.748915  [info] create_local_server: Listening @ /tmp/vsomeip-109
-2026-01-26 15:04:09.748969  [info] Client 0109 (GearState_client) successfully connected to routing  ~> registering..
-2026-01-26 15:04:09.748990  [info] Client 0109 Registering to routing manager @ vsomeip-0
-2026-01-26 15:04:09.749620  [info] Application/Client 0109 (GearState_client) is registered.
+2026-01-26 15:13:19.260558  [info] io thread id from application: ffff (GearState_client) is: ffffae7cf080 TID: 5737
+2026-01-26 15:13:19.260630  [info] cei::wait_connecting_cbk: endpoint > 0xaaab0c88d5c0 socket state > 1
+2026-01-26 15:13:19.260670  [info] assign_client: (ffff:GearState_client)
+2026-01-26 15:13:19.261408  [info] create_local_server: Listening @ /tmp/vsomeip-10c
+2026-01-26 15:13:19.261469  [info] Client 010c (GearState_client) successfully connected to routing  ~> registering..
+2026-01-26 15:13:19.261487  [info] Client 010c Registering to routing manager @ vsomeip-0
+2026-01-26 15:13:19.262065  [info] Application/Client 010c (GearState_client) is registered.
 ✓ Application loaded

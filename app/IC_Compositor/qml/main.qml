@@ -2,58 +2,101 @@ import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtWayland.Compositor 1.3
 
-Window {
-    id: mainWindow
-    visible: true
-    width: 1024
-    height: 600
-    title: "IC Compositor"
-    color: "#000000"
+/*
+ * IC_Compositor - Nested Wayland Compositor (Industrial Kiosk Mode)
+ *
+ * Architecture:
+ * - Nested compositor connecting to Weston (wayland-0)
+ * - Creates wayland-2 socket for IC apps
+ * - Fixed layout, no window decorations (Kiosk mode)
+ * - Index-based surface routing for IC apps
+ */
 
-    WaylandCompositor {
-        id: compositor
+WaylandCompositor {
+    id: compositor
 
-        WaylandOutput {
-            compositor: compositor
-            sizeFollowsWindow: true
-            window: mainWindow
-        }
+    // Create Wayland server socket for IC apps
+    // Weston uses wayland-0, HU uses wayland-1, so we use wayland-2
+    socketName: "wayland-2"
 
-        XdgShell {
-            id: xdgShell
-            property int surfaceCount: 0
-            onToplevelCreated: function(toplevel, xdgSurface) {
-                console.log("[XDG] Toplevel " + xdgShell.surfaceCount)
-                // Use index-based routing since app IDs aren't available
-                var size = Qt.size(1024, 600)
-                var layer = null
-                
-                if (xdgShell.surfaceCount === 0) {
-                    size = Qt.size(280, 600)  // GearState
-                    layer = "GearState"
-                } else if (xdgShell.surfaceCount === 1) {
-                    size = Qt.size(400, 600)  // Speedometer
-                    layer = "Speedometer"
-                } else if (xdgShell.surfaceCount === 2) {
-                    size = Qt.size(280, 600)  // BatteryMeter
-                    layer = "BatteryMeter"
+    WaylandOutput {
+        id: output
+        compositor: compositor
+        sizeFollowsWindow: true
+
+        window: Window {
+            id: mainWindow
+            width: 1024
+            height: 600
+            visible: true
+            title: "IC_Compositor"
+            color: "#000000"
+            
+            // Kiosk mode: No window decorations, fixed position
+            // Weston will manage this as a fullscreen client
+
+            Row {
+                anchors.fill: parent
+                spacing: 0
+
+                ApplicationLayer {
+                    id: layerGearState
+                    width: 280
+                    height: 600
+                    appId: "appGearState"
                 }
-                
-                console.log("[XDG-SIZE-" + layer + "] " + size.width + "x" + size.height)
-                toplevel.sendFullscreen(size)
-                assignSurfaceByIndex(xdgShell.surfaceCount, xdgSurface)
-                xdgShell.surfaceCount++
+
+                ApplicationLayer {
+                    id: layerSpeedometer
+                    width: 400
+                    height: 600
+                    appId: "appSpeedometer"
+                }
+
+                ApplicationLayer {
+                    id: layerBattery
+                    width: 280
+                    height: 600
+                    appId: "appBatteryMeter"
+                }
             }
         }
+    }
 
-        WlShell {
-            id: wlShell
-            property int surfaceCount: 0
-            onWlShellSurfaceCreated: function(wlSurface) {
-                console.log("[WLSHELL] Surface " + wlShell.surfaceCount)
-                assignSurfaceByIndex(wlShell.surfaceCount, wlSurface)
-                wlShell.surfaceCount++
+    XdgShell {
+        id: xdgShell
+        property int surfaceCount: 0
+        onToplevelCreated: function(toplevel, xdgSurface) {
+            console.log("[XDG] Toplevel " + xdgShell.surfaceCount)
+            // Use index-based routing since app IDs aren't available
+            var size = Qt.size(1024, 600)
+            var layer = null
+            
+            if (xdgShell.surfaceCount === 0) {
+                size = Qt.size(280, 600)  // GearState
+                layer = "GearState"
+            } else if (xdgShell.surfaceCount === 1) {
+                size = Qt.size(400, 600)  // Speedometer
+                layer = "Speedometer"
+            } else if (xdgShell.surfaceCount === 2) {
+                size = Qt.size(280, 600)  // BatteryMeter
+                layer = "BatteryMeter"
             }
+            
+            console.log("[XDG-SIZE-" + layer + "] " + size.width + "x" + size.height)
+            toplevel.sendFullscreen(size)
+            assignSurfaceByIndex(xdgShell.surfaceCount, xdgSurface)
+            xdgShell.surfaceCount++
+        }
+    }
+
+    WlShell {
+        id: wlShell
+        property int surfaceCount: 0
+        onWlShellSurfaceCreated: function(wlSurface) {
+            console.log("[WLSHELL] Surface " + wlShell.surfaceCount)
+            assignSurfaceByIndex(wlShell.surfaceCount, wlSurface)
+            wlShell.surfaceCount++
         }
     }
 
@@ -73,32 +116,6 @@ Window {
         if (idx < apps.length) {
             console.log("[ASSIGN-INDEX] " + idx)
             apps[idx].setSurface(surface)
-        }
-    }
-
-    Row {
-        anchors.fill: parent
-        spacing: 0
-
-        ApplicationLayer {
-            id: layerGearState
-            width: 280
-            height: 600
-            appId: "appGearState"
-        }
-
-        ApplicationLayer {
-            id: layerSpeedometer
-            width: 400
-            height: 600
-            appId: "appSpeedometer"
-        }
-
-        ApplicationLayer {
-            id: layerBattery
-            width: 280
-            height: 600
-            appId: "appBatteryMeter"
         }
     }
 

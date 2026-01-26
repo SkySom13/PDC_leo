@@ -8,30 +8,30 @@ VehicleControlClient (BatteryMeter) created
 [CAPI][INFO] Loading configuration file '/home/jetson/leo/DES_Head-Unit/app/config/../BatteryMeter_app/config/commonapi_batterymeter_app.ini'
 [CAPI][INFO] Using default binding 'dbus'
 [CAPI][INFO] Using default shared library folder '/usr/local/lib/commonapi'
-2026-01-26 15:04:15.849280  [info] Parsed vsomeip configuration in 0ms
-2026-01-26 15:04:15.849352  [info] Configuration module loaded.
-2026-01-26 15:04:15.849369  [info] Security disabled!
-2026-01-26 15:04:15.849382  [info] Initializing vsomeip (3.5.8) application "BatteryMeter_client".
-2026-01-26 15:04:15.849419  [error] is_routing_manager: Could not open /tmp/vsomeip.lck: Permission denied
-2026-01-26 15:04:15.849445  [info] Instantiating routing manager [Proxy].
-2026-01-26 15:04:15.849521  [info] Client [ffff] is connecting to [0] at /tmp/vsomeip-0 endpoint > 0xaaaaed6a7890
-2026-01-26 15:04:15.849671  [info] Application(BatteryMeter_client, ffff) is initialized (11, 100).
-2026-01-26 15:04:15.849920  [info] Starting vsomeip application "BatteryMeter_client" (ffff) using 2 threads I/O nice 0 boost event loop period 0
+2026-01-26 15:13:25.360596  [info] Parsed vsomeip configuration in 0ms
+2026-01-26 15:13:25.360671  [info] Configuration module loaded.
+2026-01-26 15:13:25.360688  [info] Security disabled!
+2026-01-26 15:13:25.360701  [info] Initializing vsomeip (3.5.8) application "BatteryMeter_client".
+2026-01-26 15:13:25.360736  [error] is_routing_manager: Could not open /tmp/vsomeip.lck: Permission denied
+2026-01-26 15:13:25.360759  [info] Instantiating routing manager [Proxy].
+2026-01-26 15:13:25.360835  [info] Client [ffff] is connecting to [0] at /tmp/vsomeip-0 endpoint > 0xaaab12a80890
+2026-01-26 15:13:25.360990  [info] Application(BatteryMeter_client, ffff) is initialized (11, 100).
+2026-01-26 15:13:25.361698  [info] Starting vsomeip application "BatteryMeter_client" (ffff) using 2 threads I/O nice 0 boost event loop period 0
 ✅ Proxy created successfully
-2026-01-26 15:04:15.850120  [info] main dispatch thread id from application: ffff (BatteryMeter_client) is: ffff9602f080 TID: 5127
-2026-01-26 15:04:15.850706  [info] io thread id from application: ffff (BatteryMeter_client) is: ffff9683f080 TID: 5126
-2026-01-26 15:04:15.850816  [info] cei::wait_connecting_cbk: endpoint > 0xaaaaed6a7890 socket state > 1
-2026-01-26 15:04:15.850851  [info] assign_client: (ffff:BatteryMeter_client)
 📡 Subscribing to VehicleControl events...
-⚠️  VehicleControl service is not available
+2026-01-26 15:13:25.362036  [info] shutdown thread id from application: ffff (BatteryMeter_client) is: ffff7afdf080 TID: 5810
+2026-01-26 15:13:25.362157  [info] io thread id from application: ffff (BatteryMeter_client) is: ffff7bfff080 TID: 5808
 ✅ Event subscriptions setup complete
 ✅ Connected to VehicleControl service
    Domain: "local"
    Instance: "vehiclecontrol.VehicleControl"
-2026-01-26 15:04:15.850223  [info] shutdown thread id from application: ffff (BatteryMeter_client) is: ffff9581f080 TID: 5128
-2026-01-26 15:04:15.850719  [info] io thread id from application: ffff (BatteryMeter_client) is: ffff87fff080 TID: 5129
-2026-01-26 15:04:15.852388  [info] create_local_server: Listening @ /tmp/vsomeip-10b
-2026-01-26 15:04:15.852467  [info] Client 010b (BatteryMeter_client) successfully connected to routing  ~> registering..
-2026-01-26 15:04:15.852492  [info] Client 010b Registering to routing manager @ vsomeip-0
-2026-01-26 15:04:15.853700  [info] Application/Client 010b (BatteryMeter_client) is registered.
+2026-01-26 15:13:25.362078  [info] main dispatch thread id from application: ffff (BatteryMeter_client) is: ffff7b7ef080 TID: 5809
+2026-01-26 15:13:25.362206  [info] cei::wait_connecting_cbk: endpoint > 0xaaab12a80890 socket state > 1
+2026-01-26 15:13:25.362208  [info] io thread id from application: ffff (BatteryMeter_client) is: ffff79fbf080 TID: 5812
+2026-01-26 15:13:25.362325  [info] assign_client: (ffff:BatteryMeter_client)
+⚠️  VehicleControl service is not available
+2026-01-26 15:13:25.363098  [info] create_local_server: Listening @ /tmp/vsomeip-10e
+2026-01-26 15:13:25.363162  [info] Client 010e (BatteryMeter_client) successfully connected to routing  ~> registering..
+2026-01-26 15:13:25.363181  [info] Client 010e Registering to routing manager @ vsomeip-0
+2026-01-26 15:13:25.363718  [info] Application/Client 010e (BatteryMeter_client) is registered.
 ✓ Application loaded
