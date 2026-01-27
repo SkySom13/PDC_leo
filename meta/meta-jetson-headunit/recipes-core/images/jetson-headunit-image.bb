@@ -23,6 +23,12 @@ IMAGE_INSTALL:append = " \
     packagegroup-core-full-cmdline \
 "
 
+# Tegra graphics demos (NVIDIA 최적화)
+IMAGE_INSTALL:append = " \
+    l4t-graphics-demos-wayland \
+    weston-examples \
+"
+
 # Qt 5.15
 IMAGE_INSTALL:append = " \
     qtbase \
