@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/AmbientLighting.qml</file>
+        <file>images/car.svg</file>
+        <file>images/car.png</file>
+    </qresource>
+</RCC>

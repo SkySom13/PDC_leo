@@ -3,8 +3,8 @@ DESCRIPTION = "Qt5/QML media player with vsomeip service providing MediaControl 
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
-DEPENDS = "qtbase qtdeclarative qtmultimedia qtquickcontrols2 vsomeip commonapi-core commonapi-someip commonapi-generated boost"
-RDEPENDS:${PN} = "qtwayland qtmultimedia qtgraphicaleffects qml-module-qtquick-controls2 qml-module-qtmultimedia vsomeip weston"
+DEPENDS = "qtbase qtdeclarative qtmultimedia qtquickcontrols2 vsomeip commonapi-core commonapi-someip-runtime commonapi-generated boost"
+RDEPENDS:${PN} = "qtwayland qtmultimedia qtgraphicaleffects qtquickcontrols2-qmlplugins qtmultimedia-qmlplugins vsomeip weston"
 
 SRC_URI = " \
     file://CMakeLists.txt \

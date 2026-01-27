@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/MediaApp.qml</file>
+        <file>images/refresh.svg</file>
+        <file>images/refresh.png</file>
+        <file>images/arrow.svg</file>
+        <file>images/backward.svg</file>
+        <file>images/backward.png</file>
+        <file>images/pause.svg</file>
+        <file>images/pause.png</file>
+        <file>images/start.svg</file>
+        <file>images/start.png</file>
+        <file>images/forward.svg</file>
+        <file>images/forward.png</file>
+    </qresource>
+</RCC>

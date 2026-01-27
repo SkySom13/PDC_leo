@@ -3,7 +3,7 @@ DESCRIPTION = "Auto-generated CommonAPI proxy/stub code for MediaControl, Ambien
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
-DEPENDS = "commonapi-core commonapi-someip vsomeip"
+DEPENDS = "commonapi-core commonapi-someip-runtime vsomeip"
 
 SRC_URI = " \
     file://core/ \

@@ -40,7 +40,7 @@ IMAGE_INSTALL:append = " \
 IMAGE_INSTALL:append = " \
     vsomeip \
     commonapi-core \
-    commonapi-someip \
+    commonapi-someip-runtime \
     vsomeip-config \
     vsomeip-routingmanager \
     commonapi-generated \

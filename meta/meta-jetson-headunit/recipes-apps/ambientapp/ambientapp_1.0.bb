@@ -3,8 +3,8 @@ DESCRIPTION = "Qt5/QML ambient control with vsomeip service providing AmbientCon
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
-DEPENDS = "qtbase qtdeclarative qtquickcontrols2 vsomeip commonapi-core commonapi-someip commonapi-generated boost"
-RDEPENDS:${PN} = "qtwayland qtgraphicaleffects qml-module-qtquick-controls2 vsomeip weston"
+DEPENDS = "qtbase qtdeclarative qtquickcontrols2 vsomeip commonapi-core commonapi-someip-runtime commonapi-generated boost"
+RDEPENDS:${PN} = "qtwayland qtgraphicaleffects qtquickcontrols2-qmlplugins vsomeip weston"
 
 SRC_URI = " \
     file://CMakeLists.txt \

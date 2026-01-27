@@ -25,8 +25,5 @@ FILES:${PN} = " \
     ${sysconfdir}/vsomeip/* \
     ${datadir}/commonapi/* \
 "
-    ${sysconfdir}/commonapi/* \
-    ${bindir}/run-rpi-all.sh \
-"
 
-RDEPENDS:${PN} = "vsomeip commonapi-core commonapi-someip-runtime bash"
+RDEPENDS:${PN} = "vsomeip commonapi-core commonapi-someip-runtime"
