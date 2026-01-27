@@ -10,6 +10,8 @@ SRC_URI = " \
     file://CMakeLists.txt \
     file://src/ \
     file://qml/ \
+    file://asset/ \
+    file://images/ \
     file://qml.qrc \
     file://mediaapp.service \
 "
