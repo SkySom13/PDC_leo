@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/HomeScreen.qml</file>
+        <file>asset/car.svg</file>
+        <file>asset/car.png</file>
+    </qresource>
+</RCC>
