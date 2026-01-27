@@ -18,4 +18,4 @@ do_install:append() {
 # Ensure DRM backend is enabled (should already be from meta-tegra)
 PACKAGECONFIG:append = " systemd"
 
-FILES:${PN} += "${sysconfdir}/xdg/weston/weston.ini"
+FILES:${PN} += "${sysconfdir}/xdg/weston/weston.ini ${systemd_system_unitdir}/weston.service"
