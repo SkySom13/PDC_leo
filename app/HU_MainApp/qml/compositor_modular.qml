@@ -40,6 +40,14 @@ WaylandCompositor {
             visible: true
             title: "HeadUnit-Compositor"
             color: "#000000"
+            
+            // Enable OpenGL rendering for texture handling
+            Component.onCompleted: {
+                // Force OpenGL context creation
+                mainWindow.contentItem.grabToImage(function(result) {
+                    console.log("✅ OpenGL context initialized")
+                })
+            }
 
             // Load the layout component for HU apps
             CompositorLayout {
@@ -82,6 +90,13 @@ WaylandCompositor {
         ShellSurfaceItem {
             id: chrome
             autoCreatePopupItems: true
+            
+            // Set initial size to prevent 0x0 configure
+            width: 800
+            height: 600
+            
+            // Don't send configure here - it will be sent after routing
+            // with correct size based on app type
 
             onSurfaceDestroyed: {
                 console.log("🗑️  Surface destroyed")
@@ -127,16 +142,60 @@ WaylandCompositor {
             // Monitor title changes for routing
             toplevel.titleChanged.connect(function() {
                 var newTitle = toplevel.title || ""
+                var currentParent = chrome.parent
+                
                 console.log("═══════════════════════════════════════")
                 console.log("📝 Title changed to:", newTitle)
-                console.log("   Re-routing HU app based on new title...")
-                surfaceRouter.routeSurface(chrome, newTitle)
+                console.log("   Current parent ID:", currentParent ? currentParent.objectName : "NULL")
+                
+                // Route to determine target container
+                var targetParent = surfaceRouter.getTargetContainer(newTitle)
+                console.log("   Target parent ID:", targetParent ? targetParent.objectName : "NULL")
+                
+                // Only re-route if target container is different
+                if (currentParent !== targetParent) {
+                    console.log("   🔄 Re-routing:", currentParent ? currentParent.objectName : "unknown", "→", targetParent ? targetParent.objectName : "unknown")
+                    surfaceRouter.routeSurface(chrome, newTitle)
+                    
+                    // Send correct size after re-routing
+                    var newSize = Qt.size(880, 520)
+                    if (chrome.parent === layout.gearAppContainer) {
+                        newSize = Qt.size(130, 520)
+                        console.log("   → Re-configured to Gear Panel: 130x520")
+                    } else {
+                        console.log("   → Re-configured to Main Area: 880x520")
+                    }
+                    toplevel.sendConfigure(newSize, [])
+                } else {
+                    console.log("   ⏩ Already in correct container (", currentParent ? currentParent.objectName : "NULL", "), skipping re-configure")
+                }
+                
                 console.log("═══════════════════════════════════════")
             })
 
             // Initial routing
             var identifier = appId || title
-            surfaceRouter.routeSurface(chrome, identifier)
+            var routingResult = surfaceRouter.routeSurface(chrome, identifier)
+            
+            // CRITICAL: Send initial configure with size to client
+            // Determine size based on which container it was routed to
+            console.log("🔍 Checking identifier for size:", identifier, "appId:", appId, "title:", title)
+            console.log("   chrome.parent:", chrome.parent ? chrome.parent.objectName || "unnamed" : "null")
+            
+            var suggestedSize = Qt.size(880, 520)  // Default for main area
+            
+            // Check which container the surface is in
+            if (chrome.parent === layout.gearAppContainer) {
+                suggestedSize = Qt.size(130, 520)
+                console.log("   → Routed to Gear Panel: 130x520")
+            } else {
+                // Main area apps
+                console.log("   → Routed to Main Area: 880x520")
+            }
+            
+            // Use toplevel directly from the signal parameter
+            toplevel.sendConfigure(suggestedSize, [])
+            console.log("📐 Sent configure:", suggestedSize.width, "x", suggestedSize.height)
 
             console.log("✅ Surface routed successfully")
             console.log("═══════════════════════════════════════")

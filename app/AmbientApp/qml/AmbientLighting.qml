@@ -6,15 +6,15 @@ import QtGraphicalEffects 1.0
 // HeadUnit 모듈 제거: C++ backend는 contextProperty로 노출됨
 
 // AmbientApp 독립 실행용 메인 윈도우
-// Optimized for Wayland Compositor
+// Content area: right of GearApp, above navigation bar
 Window {
     id: window
-    // Match compositor container: 1028 - 130 (left panel) - 10 (left) - 10 (right) = 878
-    // Height: 600 - 80 (nav bar) - 10 (top) - 10 (bottom) = 510
-    width: 878
-    height: 510
+    width: 1790  // 1920 - 130
+    height: 1000  // 1080 - 80
     visible: true
+    visibility: Window.Maximized
     title: "AmbientApp"
+    flags: Qt.Window | Qt.FramelessWindowHint
 
     Rectangle {
         id: root
@@ -264,7 +264,8 @@ Window {
                         border.width: 2
                     }
                 }
-            }
         }
+    }
+
     } // Rectangle root
 } // Window

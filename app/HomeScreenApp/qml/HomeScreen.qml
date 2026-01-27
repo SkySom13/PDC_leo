@@ -1,16 +1,18 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
+import QtQuick.Controls 2.12
 import QtGraphicalEffects 1.0
 
 // HomeScreen Dashboard - Displays aggregated info from services
+// Content area: right of GearApp, above navigation bar
 Window {
     id: window
-    // Match compositor container: 1028 - 130 (left panel) - 10 (left) - 10 (right) = 878
-    // Height: 600 - 80 (nav bar) - 10 (top) - 10 (bottom) = 510
-    width: 878
-    height: 510
+    width: 1790  // 1920 - 130
+    height: 1000  // 1080 - 80
     visible: true
+    visibility: Window.Maximized
     title: "HomeScreen"
+    flags: Qt.Window | Qt.FramelessWindowHint
 
     Rectangle {
         id: homePage

@@ -4,6 +4,8 @@
 #include <QDebug>
 #include <QTimer>
 #include <QDir>
+#include <QWindow>
+#include <QQuickWindow>
 #include <CommonAPI/CommonAPI.hpp>
 #include "ambientmanager.h"
 #include "MediaControlClient.h"
@@ -36,13 +38,16 @@ int main(int argc, char *argv[])
         qputenv("QT_WAYLAND_DISABLE_WINDOWDECORATION", "1");
     }
     if (qgetenv("WAYLAND_DISPLAY").isEmpty()) {
-        qputenv("WAYLAND_DISPLAY", "wayland-1");
+        qputenv("WAYLAND_DISPLAY", "wayland-0");  // Changed: Direct to Weston (IVI-Shell)
     }
 
     QGuiApplication app(argc, argv);
     app.setApplicationName("AmbientApp");
     app.setApplicationVersion("1.0");
     app.setOrganizationName("SEA-ME");
+    
+    // Wayland App ID 설정 (Compositor가 앱을 식별하는데 사용)
+    app.setDesktopFileName("AmbientApp.desktop");
 
     qDebug() << "═══════════════════════════════════════════════════════";
     qDebug() << "AmbientApp Process Starting...";
@@ -168,6 +173,20 @@ int main(int argc, char *argv[])
     if (!engine.rootObjects().isEmpty()) {
         qDebug() << "✅ QML GUI loaded: AmbientLighting.qml";
         qDebug() << "   Window should appear now!";
+        
+        // Desktop-Shell: Set window position and size for main content area
+        QObject *rootObject = engine.rootObjects().first();
+        if (rootObject) {
+            QQuickWindow *window = qobject_cast<QQuickWindow*>(rootObject);
+            if (window) {
+                window->setGeometry(130, 0, 1790, 1000);  // Main area: right of GearApp
+                window->setProperty("_q_waylandAppId", "AmbientApp");
+                qDebug() << "📐 Window geometry set: (130, 0, 1790, 1000) - Main Content Area";
+                qDebug() << "✅ Wayland App ID set: AmbientApp";
+            } else {
+                qWarning() << "⚠️  Failed to cast to QQuickWindow";
+            }
+        }
     }
 
     qDebug() << "";

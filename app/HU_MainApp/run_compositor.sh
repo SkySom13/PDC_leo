@@ -10,9 +10,10 @@ echo "════════════════════════�
 echo "Running HU_MainApp - Wayland Compositor"
 echo "════════════════════════════════════════════════════════════"
 
-# Wayland 설정
+# Weston 위에서 실행 (Nested Wayland Compositor)
 export QT_QPA_PLATFORM=wayland
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+export WAYLAND_DISPLAY=wayland-0  # Weston에 연결
 
 # 실행 파일 경로
 if [ -f "${SCRIPT_DIR}/build_compositor/HU_MainApp_Compositor" ]; then

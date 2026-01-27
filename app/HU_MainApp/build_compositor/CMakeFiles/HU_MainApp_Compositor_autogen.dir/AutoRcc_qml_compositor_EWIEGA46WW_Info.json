@@ -1,0 +1,29 @@
+{
+	"BUILD_DIR" : "/home/jetson/leo/DES_Head-Unit/app/HU_MainApp/build_compositor/HU_MainApp_Compositor_autogen",
+	"CMAKE_BINARY_DIR" : "/home/jetson/leo/DES_Head-Unit/app/HU_MainApp/build_compositor",
+	"CMAKE_CURRENT_BINARY_DIR" : "/home/jetson/leo/DES_Head-Unit/app/HU_MainApp/build_compositor",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/jetson/leo/DES_Head-Unit/app/HU_MainApp",
+	"CMAKE_SOURCE_DIR" : "/home/jetson/leo/DES_Head-Unit/app/HU_MainApp",
+	"INCLUDE_DIR" : "/home/jetson/leo/DES_Head-Unit/app/HU_MainApp/build_compositor/HU_MainApp_Compositor_autogen/include",
+	"INPUTS" : 
+	[
+		"/home/jetson/leo/DES_Head-Unit/app/HU_MainApp/qml/SurfaceRouter.qml",
+		"/home/jetson/leo/DES_Head-Unit/app/HU_MainApp/qml/CompositorLayout.qml",
+		"/home/jetson/leo/DES_Head-Unit/app/HU_MainApp/qml/compositor_modular.qml",
+		"/home/jetson/leo/DES_Head-Unit/app/HU_MainApp/asset/car_white.svg",
+		"/home/jetson/leo/DES_Head-Unit/app/HU_MainApp/asset/mp3_white.svg",
+		"/home/jetson/leo/DES_Head-Unit/app/HU_MainApp/asset/car.svg",
+		"/home/jetson/leo/DES_Head-Unit/app/HU_MainApp/asset/mp3.svg",
+		"/home/jetson/leo/DES_Head-Unit/app/HU_MainApp/asset/ambient_light.svg"
+	],
+	"LOCK_FILE" : "/home/jetson/leo/DES_Head-Unit/app/HU_MainApp/build_compositor/CMakeFiles/HU_MainApp_Compositor_autogen.dir/AutoRcc_qml_compositor_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "-name", "qml_compositor" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_qml_compositor.cpp",
+	"RCC_EXECUTABLE" : "/usr/lib/qt5/bin/rcc",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "/home/jetson/leo/DES_Head-Unit/app/HU_MainApp/build_compositor/CMakeFiles/HU_MainApp_Compositor_autogen.dir/AutoRcc_qml_compositor_EWIEGA46WW_Used.txt",
+	"SOURCE" : "/home/jetson/leo/DES_Head-Unit/app/HU_MainApp/qml_compositor.qrc",
+	"VERBOSITY" : 0
+}

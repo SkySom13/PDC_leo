@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QQuickWindow>
 #include <QDebug>
 #include <QTimer>
 #include "gearmanager.h"
@@ -37,7 +38,7 @@ int main(int argc, char *argv[])
         qputenv("QT_WAYLAND_DISABLE_WINDOWDECORATION", "1");
     }
     if (qgetenv("WAYLAND_DISPLAY").isEmpty()) {
-        qputenv("WAYLAND_DISPLAY", "wayland-1");
+        qputenv("WAYLAND_DISPLAY", "wayland-0");  // Changed: Direct to Weston (IVI-Shell)
     }
 
     QGuiApplication app(argc, argv);
@@ -133,6 +134,15 @@ int main(int argc, char *argv[])
     if (!engine.rootObjects().isEmpty()) {
         qDebug() << "✅ QML GUI loaded: GearSelectionWidget.qml";
         qDebug() << "🖥️  Window should appear now!";
+        
+        // Desktop-Shell: Set window position and size for left panel
+        QObject *rootObject = engine.rootObjects().first();
+        QQuickWindow *window = qobject_cast<QQuickWindow*>(rootObject);
+        if (window) {
+            window->setGeometry(0, 0, 130, 1000);  // Left panel: 130px wide, full height
+            window->setFlags(Qt::Window | Qt::WindowStaysOnTopHint);  // Always on top
+            qDebug() << "📐 Window geometry set: (0, 0, 130, 1000) - Left Panel";
+        }
     }
     
     qDebug() << "";

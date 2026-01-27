@@ -14,6 +14,24 @@ QtObject {
     property var mediaAppContainer: null
     property var ambientAppContainer: null
 
+    // Get target container without actually routing
+    function getTargetContainer(identifier) {
+        var idLower = identifier.toLowerCase()
+        
+        if (identifier === "GearApp" || idLower.includes("gear")) {
+            return gearAppContainer
+        } else if (identifier === "HomeScreenApp" || idLower.includes("homescreen") || idLower.includes("home screen")) {
+            return homeScreenAppContainer
+        } else if (identifier === "MediaApp" || idLower.includes("media")) {
+            return mediaAppContainer
+        } else if (identifier === "AmbientApp" || idLower.includes("ambient")) {
+            return ambientAppContainer
+        } else {
+            // Default: Home page
+            return homeScreenAppContainer
+        }
+    }
+
     // Helper function to clear container and add new surface
     function assignToContainer(chrome, container, containerName) {
         // Clear any existing children in the container (prevent duplicates)

@@ -4,14 +4,15 @@ import QtQuick.Controls 2.12
 // HeadUnit 모듈 제거: C++ backend는 contextProperty로 노출됨
 
 // GearApp 독립 실행용 메인 윈도우
-// Optimized for Wayland Compositor left panel (130px width)
+// Left panel: 130px width, full height minus nav bar
 Window {
     id: window
     width: 130
-    height: 520  // Match compositor: 600 (screen) - 80 (nav bar) = 520
+    height: 1000  // 1080 - 80 (nav bar)
     visible: true
     title: "GearApp"
     color: "#1a1a1a"
+    flags: Qt.Window | Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint
 
     // 재사용 가능한 기어 선택 위젯 컴포넌트
     Column {

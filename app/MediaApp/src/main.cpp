@@ -3,6 +3,8 @@
 #include <QQmlContext>
 #include <QDebug>
 #include <QTimer>
+#include <QWindow>
+#include <QQuickWindow>
 #include <CommonAPI/CommonAPI.hpp>
 #include "mediamanager.h"
 #include "MediaControlStubImpl.h"
@@ -35,13 +37,16 @@ int main(int argc, char *argv[])
         qputenv("QT_WAYLAND_DISABLE_WINDOWDECORATION", "1");
     }
     if (qgetenv("WAYLAND_DISPLAY").isEmpty()) {
-        qputenv("WAYLAND_DISPLAY", "wayland-1");
+        qputenv("WAYLAND_DISPLAY", "wayland-0");  // Changed: Direct to Weston (IVI-Shell)
     }
 
     QGuiApplication app(argc, argv);
     app.setApplicationName("MediaApp");
     app.setApplicationVersion("1.0");
     app.setOrganizationName("SEA-ME");
+    
+    // Wayland App ID 설정 (Compositor가 앱을 식별하는데 사용)
+    app.setDesktopFileName("MediaApp.desktop");
 
     qDebug() << "═══════════════════════════════════════════════════════";
     qDebug() << "MediaApp (vsomeip Service) Starting...";
@@ -147,6 +152,20 @@ int main(int argc, char *argv[])
     if (!engine.rootObjects().isEmpty()) {
         qDebug() << "✅ QML GUI loaded: MediaApp.qml";
         qDebug() << "🖥️  Window should appear now!";
+        
+        // Desktop-Shell: Set window position and size for main content area
+        QObject *rootObject = engine.rootObjects().first();
+        if (rootObject) {
+            QQuickWindow *window = qobject_cast<QQuickWindow*>(rootObject);
+            if (window) {
+                window->setGeometry(130, 0, 1790, 1000);  // Main area: right of GearApp
+                window->setProperty("_q_waylandAppId", "MediaApp");
+                qDebug() << "📐 Window geometry set: (130, 0, 1790, 1000) - Main Content Area";
+                qDebug() << "✅ Wayland App ID set: MediaApp";
+            } else {
+                qWarning() << "⚠️  Failed to cast to QQuickWindow";
+            }
+        }
     }
 
     qDebug() << "";

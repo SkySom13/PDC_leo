@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QDebug>
+#include <QSurfaceFormat>
 
 int main(int argc, char *argv[])
 {
@@ -32,8 +33,20 @@ int main(int argc, char *argv[])
     // And creates its own compositor socket wayland-1 for HU apps
     // Note: The nested compositor socket name will be set by Qt Wayland Compositor
 
+    // ═══════════════════════════════════════════════════════
+    // Configure OpenGL surface format for compositor
+    // ═══════════════════════════════════════════════════════
+    QSurfaceFormat format = QSurfaceFormat::defaultFormat();
+    format.setDepthBufferSize(24);
+    format.setStencilBufferSize(8);
+    format.setVersion(2, 0);  // OpenGL ES 2.0 for embedded systems
+    format.setRenderableType(QSurfaceFormat::OpenGLES);
+    format.setSwapBehavior(QSurfaceFormat::SingleBuffer);  // Single buffer for lower latency
+    QSurfaceFormat::setDefaultFormat(format);
+
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);  // Share GL context between surfaces
 #endif
 
     QGuiApplication app(argc, argv);

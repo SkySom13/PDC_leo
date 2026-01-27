@@ -34,6 +34,7 @@ Item {
         // Container for GearApp window
         Item {
             id: gearAppContainer
+            objectName: "gearAppContainer"
             anchors.fill: parent
         }
     }
@@ -43,6 +44,7 @@ Item {
     // ═══════════════════════════════════════════════════════
     Item {
         id: mainContentArea
+        objectName: "mainContentArea"
         anchors.left: leftGearPanel.right
         anchors.right: parent.right
         anchors.top: parent.top
@@ -61,6 +63,7 @@ Item {
             // Container for HomeScreenApp window
             Item {
                 id: homeScreenAppContainer
+                objectName: "homeScreenAppContainer"
                 anchors.fill: parent
             }
         }
@@ -77,6 +80,7 @@ Item {
             // Container for MediaApp window
             Item {
                 id: mediaAppContainer
+                objectName: "mediaAppContainer"
                 anchors.fill: parent
             }
         }
@@ -93,6 +97,7 @@ Item {
             // Container for AmbientApp window
             Item {
                 id: ambientAppContainer
+                objectName: "ambientAppContainer"
                 anchors.fill: parent
             }
         }
@@ -129,22 +134,13 @@ Item {
                     }
                 }
 
-                contentItem: Item {
-                    Image {
-                        id: carIcon
-                        anchors.centerIn: parent
-                        width: 50
-                        height: 50
-                        source: "qrc:/asset/car.svg"
-                        fillMode: Image.PreserveAspectFit
-                        smooth: true
-                        visible: false
-                    }
-                    ColorOverlay {
-                        anchors.fill: carIcon
-                        source: carIcon
-                        color: "white"
-                    }
+                contentItem: Image {
+                    anchors.centerIn: parent
+                    width: 50
+                    height: 50
+                    source: "qrc:/asset/car_white.svg"
+                    fillMode: Image.PreserveAspectFit
+                    smooth: true
                 }
             }
 
@@ -164,22 +160,13 @@ Item {
                     }
                 }
 
-                contentItem: Item {
-                    Image {
-                        id: mp3Icon
-                        anchors.centerIn: parent
-                        width: 50
-                        height: 50
-                        source: "qrc:/asset/mp3.svg"
-                        fillMode: Image.PreserveAspectFit
-                        smooth: true
-                        visible: false
-                    }
-                    ColorOverlay {
-                        anchors.fill: mp3Icon
-                        source: mp3Icon
-                        color: "white"
-                    }
+                contentItem: Image {
+                    anchors.centerIn: parent
+                    width: 50
+                    height: 50
+                    source: "qrc:/asset/mp3_white.svg"
+                    fillMode: Image.PreserveAspectFit
+                    smooth: true
                 }
             }
 

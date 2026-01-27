@@ -1,0 +1,12 @@
+{
+  "device": "/dev/dri/card0",
+  "outputs": [
+    {
+      "name": "DP-1",
+      "mode": "1920x1080",
+      "format": "argb8888",
+      "physicalWidth": 527,
+      "physicalHeight": 296
+    }
+  ]
+}

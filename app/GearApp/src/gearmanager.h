@@ -13,7 +13,7 @@ public:
     explicit GearManager(QObject *parent = nullptr);
 
     QString gearPosition() const { return m_gearPosition; }
-    void setGearPosition(const QString &position);                          // Called by QML when user clicks gear button
+    Q_INVOKABLE void setGearPosition(const QString &position);              // Called by QML when user clicks gear button
 
     // FIX: Separate method for vsomeip event updates (prevents feedback loop)
     void updateGearFromService(const QString &position);                    // Called by vsomeip event handler only

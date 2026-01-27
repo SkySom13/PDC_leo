@@ -14,7 +14,7 @@ cd build_compositor
 
 # CMake with compositor-only CMakeLists
 echo "Running CMake..."
-cmake -DCMAKE_BUILD_TYPE=Debug -f ../CMakeLists_compositor.txt ..
+cmake .. -DCMAKE_BUILD_TYPE=Debug
 if [ $? -ne 0 ]; then
     echo "❌ CMake configuration failed!"
     exit 1
