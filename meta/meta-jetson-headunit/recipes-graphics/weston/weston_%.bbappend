@@ -6,12 +6,14 @@ SRC_URI += " \
 "
 
 do_install:append() {
-    # Install Jetson-specific weston.ini
+    # Force install Jetson-specific weston.ini (override any existing)
     install -d ${D}${sysconfdir}/xdg/weston
+    rm -f ${D}${sysconfdir}/xdg/weston/weston.ini
     install -m 0644 ${WORKDIR}/weston.ini ${D}${sysconfdir}/xdg/weston/weston.ini
 
-    # Override systemd service
+    # Force override systemd service
     install -d ${D}${systemd_system_unitdir}
+    rm -f ${D}${systemd_system_unitdir}/weston.service
     install -m 0644 ${WORKDIR}/weston.service ${D}${systemd_system_unitdir}/weston.service
 }
 
