@@ -15,8 +15,7 @@ do_install:append() {
     install -m 0644 ${WORKDIR}/weston.service ${D}${systemd_system_unitdir}/weston.service
 }
 
-# Enable DRM backend for NVIDIA
-PACKAGECONFIG = "drm systemd"
-PACKAGECONFIG:remove = "fbdev x11"
+# Ensure DRM backend is enabled (should already be from meta-tegra)
+PACKAGECONFIG:append = " systemd"
 
 FILES:${PN} += "${sysconfdir}/xdg/weston/weston.ini"
