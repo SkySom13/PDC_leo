@@ -1,21 +1,55 @@
 [Unit]
-Description=Weston Wayland Compositor for Jetson
-After=multi-user.target
-Wants=multi-user.target
+Description=Weston Wayland Compositor for Jetson Orin Nano
+Documentation=man:weston(1)
+After=systemd-user-sessions.service plymouth-quit-wait.service
+Wants=systemd-user-sessions.service
+Before=graphical.target
+Conflicts=getty@tty7.service
+ConditionPathExists=/dev/tty7
 
 [Service]
 Type=simple
 User=root
+Group=root
+WorkingDirectory=/root
+
+# Setup environment
 Environment="XDG_RUNTIME_DIR=/run/user/0"
-ExecStartPre=/bin/sh -c 'systemctl stop gdm 2>/dev/null || true'
-ExecStartPre=/bin/sh -c 'pkill -9 Xorg 2>/dev/null || true'
-ExecStartPre=/bin/sh -c 'modprobe nvidia_drm modeset=1'
+Environment="XDG_SESSION_TYPE=wayland"
+
+# Prepare runtime directory
 ExecStartPre=/bin/mkdir -p /run/user/0
 ExecStartPre=/bin/chmod 700 /run/user/0
+ExecStartPre=/bin/chown root:root /run/user/0
+
+# Kill any conflicting display servers
+ExecStartPre=-/bin/sh -c 'systemctl stop gdm 2>/dev/null || true'
+ExecStartPre=-/bin/sh -c 'pkill -9 Xorg 2>/dev/null || true'
+
+# Load NVIDIA DRM with modeset
+ExecStartPre=/sbin/modprobe nvidia_drm modeset=1
+
+# Clean up old wayland sockets
 ExecStartPre=/bin/rm -rf /run/user/0/wayland-*
+
+# Start Weston on tty7
 ExecStart=/usr/bin/weston --config=/etc/xdg/weston/weston.ini --idle-time=0 --log=/var/log/weston.log
-Restart=always
+
+# Restart on failure
+Restart=on-failure
 RestartSec=5
+TimeoutStartSec=60
+
+# TTY configuration
+TTYPath=/dev/tty7
+TTYReset=yes
+TTYVHangup=yes
+TTYVTDisallocate=yes
+
+# Input/Output
+StandardInput=tty
+StandardOutput=journal
+StandardError=journal
 
 [Install]
 WantedBy=graphical.target
