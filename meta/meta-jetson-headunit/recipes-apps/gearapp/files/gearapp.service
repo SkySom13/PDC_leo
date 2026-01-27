@@ -1,0 +1,39 @@
+[Unit]
+Description=Gear Selection Application
+Documentation=https://github.com/leo9044/PDC_leo
+Requires=weston.service vsomeip-routingmanager.service
+After=weston.service vsomeip-routingmanager.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=weston
+Group=weston
+
+# Wayland 환경
+Environment="WAYLAND_DISPLAY=wayland-0"
+Environment="XDG_RUNTIME_DIR=/run/user/1000"
+Environment="QT_QPA_PLATFORM=wayland"
+Environment="QT_WAYLAND_DISABLE_WINDOWDECORATION=1"
+
+# vsomeip 설정
+Environment="VSOMEIP_CONFIGURATION=/etc/vsomeip/routing_manager_ecu2.json"
+Environment="VSOMEIP_APPLICATION_NAME=GearApp"
+
+# CommonAPI 설정
+Environment="COMMONAPI_CONFIG=/usr/share/commonapi/commonapi.ini"
+
+# Library paths
+Environment="LD_LIBRARY_PATH=/usr/lib"
+
+# 실행
+ExecStart=/usr/bin/GearApp
+
+# 재시작 정책
+Restart=on-failure
+RestartSec=5
+StartLimitInterval=200
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target

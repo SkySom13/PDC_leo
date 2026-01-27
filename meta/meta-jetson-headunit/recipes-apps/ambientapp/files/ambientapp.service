@@ -1,0 +1,25 @@
+[Unit]
+Description=Ambient Lighting Control Application
+Documentation=https://github.com/leo9044/PDC_leo
+Requires=weston.service vsomeip-routingmanager.service
+After=weston.service vsomeip-routingmanager.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=weston
+Group=weston
+Environment="WAYLAND_DISPLAY=wayland-0"
+Environment="XDG_RUNTIME_DIR=/run/user/1000"
+Environment="QT_QPA_PLATFORM=wayland"
+Environment="QT_WAYLAND_DISABLE_WINDOWDECORATION=1"
+Environment="VSOMEIP_CONFIGURATION=/etc/vsomeip/routing_manager_ecu2.json"
+Environment="VSOMEIP_APPLICATION_NAME=AmbientApp"
+Environment="COMMONAPI_CONFIG=/usr/share/commonapi/commonapi.ini"
+Environment="LD_LIBRARY_PATH=/usr/lib"
+ExecStart=/usr/bin/AmbientApp
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

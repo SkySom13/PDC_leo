@@ -36,6 +36,25 @@ IMAGE_INSTALL:append = " \
     qtmultimedia \
 "
 
+# vsomeip & CommonAPI
+IMAGE_INSTALL:append = " \
+    vsomeip \
+    commonapi-core \
+    commonapi-someip \
+    vsomeip-config \
+    vsomeip-routingmanager \
+    commonapi-generated \
+    boost \
+"
+
+# HU Applications
+IMAGE_INSTALL:append = " \
+    gearapp \
+    mediaapp \
+    ambientapp \
+    homescreenapp \
+"
+
 # 네트워크
 IMAGE_INSTALL:append = " \
     iproute2 \
