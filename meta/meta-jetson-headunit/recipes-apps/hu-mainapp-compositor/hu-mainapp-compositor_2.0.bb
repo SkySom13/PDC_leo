@@ -8,7 +8,7 @@ RDEPENDS:${PN} = "qtbase qtdeclarative qtwayland-qmlplugins weston"
 
 SRC_URI = " \
     file://CMakeLists.txt \
-    file://src/main_compositor.cpp \
+    file://src/ \
     file://qml/ \
     file://asset/ \
     file://qml_compositor.qrc \
