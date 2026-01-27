@@ -10,6 +10,8 @@
 		"/home/jetson/leo/DES_Head-Unit/app/HU_MainApp/qml/SurfaceRouter.qml",
 		"/home/jetson/leo/DES_Head-Unit/app/HU_MainApp/qml/CompositorLayout.qml",
 		"/home/jetson/leo/DES_Head-Unit/app/HU_MainApp/qml/compositor_modular.qml",
+		"/home/jetson/leo/DES_Head-Unit/app/HU_MainApp/asset/car_white.svg",
+		"/home/jetson/leo/DES_Head-Unit/app/HU_MainApp/asset/mp3_white.svg",
 		"/home/jetson/leo/DES_Head-Unit/app/HU_MainApp/asset/car.svg",
 		"/home/jetson/leo/DES_Head-Unit/app/HU_MainApp/asset/mp3.svg",
 		"/home/jetson/leo/DES_Head-Unit/app/HU_MainApp/asset/ambient_light.svg"

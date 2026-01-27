@@ -74,6 +74,8 @@ HU_MainApp_Compositor_autogen/EWIEGA46WW/qrc_qml_compositor.cpp: CMakeFiles/HU_M
 HU_MainApp_Compositor_autogen/EWIEGA46WW/qrc_qml_compositor.cpp: ../qml/SurfaceRouter.qml
 HU_MainApp_Compositor_autogen/EWIEGA46WW/qrc_qml_compositor.cpp: ../qml/CompositorLayout.qml
 HU_MainApp_Compositor_autogen/EWIEGA46WW/qrc_qml_compositor.cpp: ../qml/compositor_modular.qml
+HU_MainApp_Compositor_autogen/EWIEGA46WW/qrc_qml_compositor.cpp: ../asset/car_white.svg
+HU_MainApp_Compositor_autogen/EWIEGA46WW/qrc_qml_compositor.cpp: ../asset/mp3_white.svg
 HU_MainApp_Compositor_autogen/EWIEGA46WW/qrc_qml_compositor.cpp: ../asset/car.svg
 HU_MainApp_Compositor_autogen/EWIEGA46WW/qrc_qml_compositor.cpp: ../asset/mp3.svg
 HU_MainApp_Compositor_autogen/EWIEGA46WW/qrc_qml_compositor.cpp: ../asset/ambient_light.svg

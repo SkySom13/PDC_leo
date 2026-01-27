@@ -76,28 +76,28 @@ echo ""
 
 # 6. vsomeip Routing Manager
 echo "[6/7] Start Routing Manager..."
-cd "${PROJECT_ROOT}/app/config"
-export VSOMEIP_CONFIGURATION="${PROJECT_ROOT}/app/config/routing_manager_ecu2.json"
-export VSOMEIP_APPLICATION_NAME="routingmanagerd"
-export LD_LIBRARY_PATH="${DEPLOY_PREFIX}/lib:/usr/local/lib:${LD_LIBRARY_PATH}"
 
-ROUTING_MGR="${PROJECT_ROOT}/deps/vsomeip/build/examples/routingmanagerd/routingmanagerd"
-if [ -x "$ROUTING_MGR" ]; then
-    $ROUTING_MGR &> /tmp/routing_manager.log &
-    RM_PID=$!
+# Check if routing manager is already running
+if pgrep -x "routingmanagerd" > /dev/null; then
+    echo "   ⚠️  Routing Manager already running - skipping"
+    RM_PID=$(pgrep -x "routingmanagerd")
     echo "   Routing Manager PID: $RM_PID"
 else
-    echo "❌ routingmanagerd not found at: $ROUTING_MGR"
-    sudo pkill -9 weston
-    exit 1
-fi
-
-sleep 3
-if [ ! -e /tmp/vsomeip-0 ]; then
-    echo "❌ Routing Manager failed!"
-    echo "   Check: tail /tmp/routing_manager.log"
-    sudo pkill -9 weston
-    exit 1
+    # Start routing manager using dedicated script
+    cd "${PROJECT_ROOT}/app/config"
+    ./start_routing_manager.sh
+    
+    sleep 2
+    
+    if [ ! -e /tmp/vsomeip-0 ]; then
+        echo "❌ Routing Manager failed!"
+        echo "   Check: cat /tmp/routingmanager.log"
+        sudo pkill -9 weston
+        exit 1
+    fi
+    
+    RM_PID=$(pgrep -x "routingmanagerd")
+    echo "   Routing Manager PID: $RM_PID"
 fi
 
 # Fix vsomeip.lck permission for client apps
