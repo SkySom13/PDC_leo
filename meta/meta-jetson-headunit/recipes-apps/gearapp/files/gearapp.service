@@ -7,12 +7,12 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-User=weston
-Group=weston
+User=root
+Group=root
 
 # Wayland 환경 - HU Compositor 연결
 Environment="WAYLAND_DISPLAY=wayland-1"
-Environment="XDG_RUNTIME_DIR=/run/user/1000"
+Environment="XDG_RUNTIME_DIR=/run/user/0"
 Environment="QT_QPA_PLATFORM=wayland"
 Environment="QT_WAYLAND_DISABLE_WINDOWDECORATION=1"
 

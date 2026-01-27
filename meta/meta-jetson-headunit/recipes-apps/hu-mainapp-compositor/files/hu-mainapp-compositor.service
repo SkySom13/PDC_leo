@@ -5,8 +5,8 @@ Requires=weston.service vsomeip-routingmanager.service
 
 [Service]
 Type=simple
-User=weston
-Environment="XDG_RUNTIME_DIR=/run/user/1000"
+User=root
+Environment="XDG_RUNTIME_DIR=/run/user/0"
 Environment="WAYLAND_DISPLAY=wayland-0"
 Environment="QT_QPA_PLATFORM=wayland"
 Environment="QT_WAYLAND_DISABLE_WINDOWDECORATION=1"

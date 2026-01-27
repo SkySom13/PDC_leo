@@ -1,0 +1,21 @@
+[Unit]
+Description=Weston Wayland Compositor for Jetson
+After=multi-user.target
+Wants=multi-user.target
+
+[Service]
+Type=simple
+User=root
+Environment="XDG_RUNTIME_DIR=/run/user/0"
+ExecStartPre=/bin/sh -c 'systemctl stop gdm 2>/dev/null || true'
+ExecStartPre=/bin/sh -c 'pkill -9 Xorg 2>/dev/null || true'
+ExecStartPre=/bin/sh -c 'modprobe nvidia_drm modeset=1'
+ExecStartPre=/bin/mkdir -p /run/user/0
+ExecStartPre=/bin/chmod 700 /run/user/0
+ExecStartPre=/bin/rm -rf /run/user/0/wayland-*
+ExecStart=/usr/bin/weston --config=/etc/xdg/weston/weston.ini --idle-time=0 --log=/var/log/weston.log
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=graphical.target

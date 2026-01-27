@@ -7,10 +7,10 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-User=weston
-Group=weston
+User=root
+Group=root
 Environment="WAYLAND_DISPLAY=wayland-1"
-Environment="XDG_RUNTIME_DIR=/run/user/1000"
+Environment="XDG_RUNTIME_DIR=/run/user/0"
 Environment="QT_QPA_PLATFORM=wayland"
 Environment="QT_WAYLAND_DISABLE_WINDOWDECORATION=1"
 Environment="VSOMEIP_CONFIGURATION=/etc/vsomeip/routing_manager_ecu2.json"
