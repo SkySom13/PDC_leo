@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <!-- Compositor QML (EGLFS mode) -->
+        <file>qml/compositor_modular.qml</file>
+
+        <!-- Shared Layout Components -->
+        <file>qml/CompositorLayout.qml</file>
+        <file>qml/SurfaceRouter.qml</file>
+
+        <!-- Assets for HomePage (vehicle dashboard) -->
+        <file>asset/car.svg</file>
+        <file>asset/car_white.svg</file>
+        <file>asset/mp3.svg</file>
+        <file>asset/mp3_white.svg</file>
+        <file>asset/ambient_light.svg</file>
+    </qresource>
+</RCC>

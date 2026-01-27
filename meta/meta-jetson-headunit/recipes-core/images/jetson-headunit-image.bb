@@ -49,6 +49,7 @@ IMAGE_INSTALL:append = " \
 
 # HU Applications
 IMAGE_INSTALL:append = " \
+    hu-mainapp-compositor \
     gearapp \
     mediaapp \
     ambientapp \

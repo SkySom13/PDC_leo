@@ -1,15 +1,15 @@
 [Unit]
 Description=Home Screen Application
 Documentation=https://github.com/leo9044/PDC_leo
-Requires=weston.service vsomeip-routingmanager.service
-After=weston.service vsomeip-routingmanager.service network-online.target
+Requires=hu-mainapp-compositor.service vsomeip-routingmanager.service
+After=hu-mainapp-compositor.service vsomeip-routingmanager.service network-online.target
 Wants=network-online.target
 
 [Service]
 Type=simple
 User=weston
 Group=weston
-Environment="WAYLAND_DISPLAY=wayland-0"
+Environment="WAYLAND_DISPLAY=wayland-1"
 Environment="XDG_RUNTIME_DIR=/run/user/1000"
 Environment="QT_QPA_PLATFORM=wayland"
 Environment="QT_WAYLAND_DISABLE_WINDOWDECORATION=1"
