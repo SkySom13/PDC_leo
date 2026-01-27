@@ -12,18 +12,15 @@ VIRTUAL-RUNTIME_initscripts = ""
 
 # Wayland 활성화 (X11 제거)
 DISTRO_FEATURES:remove = "x11"
-DISTRO_FEATURES:append = " wayland"
+DISTRO_FEATURES:append = " wayland opengl"
+
+# IMAGE_FEATURES: Weston 활성화 (의존성 자동 처리)
+IMAGE_FEATURES += "hwcodecs weston"
 
 # 필수 패키지 그룹
 IMAGE_INSTALL:append = " \
     packagegroup-core-boot \
     packagegroup-core-full-cmdline \
-"
-
-# Weston (NVIDIA 최적화)
-IMAGE_INSTALL:append = " \
-    weston \
-    weston-init \
 "
 
 # Qt 5.15
@@ -74,3 +71,6 @@ IMAGE_ROOTFS_SIZE ?= "2097152"
 
 # 타겟 포맷
 IMAGE_FSTYPES = "tegraflash tar.gz"
+
+# systemd: graphical.target으로 부팅
+SYSTEMD_DEFAULT_TARGET = "graphical.target"
