@@ -1,0 +1,40 @@
+FROM ubuntu:22.04
+ENV DEBIAN_FRONTEND=noninteractive
+
+# 1. Base tools + dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    cmake \
+    ninja-build \
+    libboost-all-dev \
+    libglib2.0-0 \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# 2. Install CommonAPI + vsomeip libs from your deps
+#    (these are already compiled in your repo)
+COPY deps/include /usr/local/include
+COPY deps/lib /usr/local/lib
+RUN ldconfig
+
+WORKDIR /pdc-mw
+
+# 3. Copy ECU/mock sources and vsomeip configs
+COPY VehicleControlECU /pdc-mw/VehicleControlECU
+COPY vsomeip-config /pdc-mw/vsomeip-config
+
+# TODO: if you want pure mock instead of real ECU, replace VehicleControlECU
+# with a simple mock app from vehiclecontrolmock/files, built via a small CMakeLists.
+
+# 4. Build the ECU/middleware binary
+WORKDIR /pdc-mw/VehicleControlECU
+RUN mkdir -p build && cd build && \
+    cmake .. -G Ninja && \
+    ninja
+
+# 5. Runtime env for vsomeip
+ENV VSOMEIP_APPLICATION_NAME=vehicle_control_ecu
+ENV VSOMEIP_CONFIGURATION=/pdc-mw/vsomeip-config/vsomeip.json
+
+# 6. Start vsomeip ECU server (and routing manager, if it is in same process)
+CMD ["bash", "-lc", "cd /pdc-mw/VehicleControlECU/build && ./VehicleControlECU"]
